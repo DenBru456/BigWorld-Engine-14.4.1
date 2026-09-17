@@ -820,14 +820,19 @@ void MeModule::render( float dTime )
     {
         //Can't render semi-dynamic shadows if the terrain has any semi's on it
         // as the shadows render regardless of if it model is visible or not
-        rendererPipeline->dynamicShadow()->set_semiEnabled(useTerrain);
+        // old thing rendererPipeline->dynamicShadow()->set_semiEnabled(useTerrain);
         // Don't draw shadows during preview mode. The reason is that the
         // preview object does not render in the shadow pass and it
         // can make the effect techniques get stuck in shadow rendering
         // technique even when rendering to color buffer.
-        Moo::DrawContext shadowDrawContext( Moo::RENDERING_PASS_SHADOWS );
-        rendererPipeline->beginCastShadows( shadowDrawContext );
-        rendererPipeline->endCastShadows();
+        Moo::ShadowManager* shadowMgr = rendererPipeline->dynamicShadow();
+        if (shadowMgr)
+        {
+            shadowMgr->set_semiEnabled(useTerrain);
+            Moo::DrawContext shadowDrawContext(Moo::RENDERING_PASS_SHADOWS);
+            rendererPipeline->beginCastShadows(shadowDrawContext);
+            rendererPipeline->endCastShadows();
+        }
     }
 
     rc.effectVisualContext().updateSharedConstants(Moo::CONSTANTS_ALL);

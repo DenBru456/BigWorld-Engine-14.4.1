@@ -153,7 +153,7 @@ void PageActions::initMatcherField( controls::EditNumeric& field, int dec /* = 0
 	field.SetMinimum( min, true );
 	field.SetMaximum( max, true );
 	field.SetAllowNegative( allowNeg );
-	field.SetAllowEmpty( false );
+	field.SetAllowEmpty( true );
 }
 
 PageActions::PageActions()
